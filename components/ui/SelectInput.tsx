@@ -4,9 +4,11 @@ type SelectInputProps = {
   options: string[];
   value: string;
   onChange: (value: string) => void;
+  key: string;
 };
 
 const SelectInput = ({
+  key,
   label,
   id,
   options,
@@ -19,6 +21,7 @@ const SelectInput = ({
         {label}
       </label>
       <select
+        key={key}
         id={id}
         name={id}
         value={value}

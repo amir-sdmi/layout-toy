@@ -2,12 +2,28 @@
 import { useState } from "react";
 import RangeInput from "@/components/ui/RangeInput";
 import SelectInput from "@/components/ui/SelectInput";
-const gapOptions = ["1", "2", "3", "4", "5"];
+import tailwindFlexboxParentAttributes from "@/utils/tailwindFlexboxAttributes";
 
 export default function Home() {
   const [boxesValue, setBoxesValue] = useState(3);
   const [containerHeight, setContainerHeight] = useState(300);
-  const [gap, setGap] = useState("");
+  const [flexboxAttributes, setFlexboxAttributes] = useState({
+    flexDirection: "",
+    flexWrap: "",
+    justifyContent: "",
+    alignItems: "",
+    alignContent: "",
+    gap: "",
+    placeContent: "",
+    placeItems: "",
+  });
+
+  const handleChange = (key: string, value: string) => {
+    setFlexboxAttributes((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
   return (
     <>
       <div>
@@ -29,13 +45,16 @@ export default function Home() {
             value={containerHeight}
             onChange={(value) => setContainerHeight(value)}
           />
-          <SelectInput
-            label="gap"
-            id="gap"
-            options={gapOptions}
-            value={gap}
-            onChange={(value) => setGap(value)}
-          />
+          {Object.keys(tailwindFlexboxParentAttributes).map((key) => (
+            <SelectInput
+              key={key}
+              label={key}
+              id={key}
+              options={tailwindFlexboxParentAttributes[key]}
+              value={flexboxAttributes[key]}
+              onChange={(value) => handleChange(key, value)}
+            />
+          ))}
         </form>
       </div>
     </>
