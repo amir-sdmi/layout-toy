@@ -20,7 +20,7 @@ const RangeInput = ({
   return (
     <>
       <label htmlFor={id}>{label}</label>
-      <p>{value}</p>
+      <span> {value} </span>
       <input
         id={id}
         name={id}

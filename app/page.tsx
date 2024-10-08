@@ -2,12 +2,17 @@
 import { useState } from "react";
 import RangeInput from "@/components/ui/RangeInput";
 import SelectInput from "@/components/ui/SelectInput";
-import tailwindFlexboxParentAttributes from "@/utils/tailwindFlexboxAttributes";
+import flexboxOptions from "@/utils/tailwindFlexboxOptions";
 
-export default function Home() {
-  const [boxesValue, setBoxesValue] = useState(3);
+type FlexboxOptionKey = keyof typeof flexboxOptions;
+
+export default function FlexboxConfigurator() {
+  const [boxCount, setBoxCount] = useState(3);
   const [containerHeight, setContainerHeight] = useState(300);
-  const [flexboxAttributes, setFlexboxAttributes] = useState({
+  const [boxWidth, setBoxWidth] = useState("");
+  const [flexboxSettings, setFlexboxSettings] = useState<
+    Record<FlexboxOptionKey, string>
+  >({
     flexDirection: "",
     flexWrap: "",
     justifyContent: "",
@@ -18,10 +23,13 @@ export default function Home() {
     placeItems: "",
   });
 
-  const handleChange = (key: string, value: string) => {
-    setFlexboxAttributes((prevState) => ({
-      ...prevState,
-      [key]: value,
+  const handleFlexboxSettingChange = (
+    attribute: FlexboxOptionKey,
+    value: string
+  ) => {
+    setFlexboxSettings((prevSettings) => ({
+      ...prevSettings,
+      [attribute]: value,
     }));
   };
   return (
@@ -29,12 +37,12 @@ export default function Home() {
       <div>
         <form>
           <RangeInput
-            id="boxes"
-            label="Boxes"
+            id="boxCount"
+            label="Number of Boxes"
             min={1}
             max={10}
-            value={boxesValue}
-            onChange={(value) => setBoxesValue(value)}
+            value={boxCount}
+            onChange={(value) => setBoxCount(value)}
           />
           <RangeInput
             label="Container Height"
@@ -45,16 +53,31 @@ export default function Home() {
             value={containerHeight}
             onChange={(value) => setContainerHeight(value)}
           />
-          {Object.keys(tailwindFlexboxParentAttributes).map((key) => (
-            <SelectInput
-              key={key}
-              label={key}
-              id={key}
-              options={tailwindFlexboxParentAttributes[key]}
-              value={flexboxAttributes[key]}
-              onChange={(value) => handleChange(key, value)}
-            />
-          ))}
+          <SelectInput
+            label="boxWidth"
+            id="boxWidth"
+            options={["w-10", "w-20", "w-40", "w-60", "w-80", "w-full"]}
+            value={boxWidth}
+            onChange={(value) => setBoxWidth(value)}
+          />
+          <button>Reset</button>
+          <div>
+            {Object.keys(flexboxOptions).map((attribute) => (
+              <SelectInput
+                key={attribute}
+                label={attribute}
+                id={attribute}
+                options={flexboxOptions[attribute as FlexboxOptionKey]}
+                value={flexboxSettings[attribute as FlexboxOptionKey]}
+                onChange={(value) =>
+                  handleFlexboxSettingChange(
+                    attribute as FlexboxOptionKey,
+                    value
+                  )
+                }
+              />
+            ))}
+          </div>
         </form>
       </div>
     </>

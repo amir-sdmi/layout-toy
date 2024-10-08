@@ -1,4 +1,4 @@
-const tailwindFlexboxParentAttributes = {
+const tailwindFlexboxOptions = {
   flexDirection: [
     "flex-row",
     "flex-row-reverse",
@@ -83,4 +83,4 @@ const tailwindFlexboxParentAttributes = {
   ],
 };
 
-export default tailwindFlexboxParentAttributes;
+export default tailwindFlexboxOptions;
